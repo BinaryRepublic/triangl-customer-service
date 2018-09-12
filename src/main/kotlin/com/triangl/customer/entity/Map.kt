@@ -23,7 +23,8 @@ class Map {
     @NotNull
     var router: List<Router>? = null
 
-    constructor() {}
+    @Suppress("unused")
+    constructor()
 
     constructor(name: String, nodes: List<Coordinate>, routes: List<Router>) {
         this.id = UUID.randomUUID().toString()

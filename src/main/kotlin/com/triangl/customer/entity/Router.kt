@@ -16,7 +16,8 @@ class Router {
     @NotNull
     var location: Coordinate? = null
 
-    constructor() {}
+    @Suppress("unused")
+    constructor()
 
     constructor(x: Float, y: Float) {
         this.id = UUID.randomUUID().toString()

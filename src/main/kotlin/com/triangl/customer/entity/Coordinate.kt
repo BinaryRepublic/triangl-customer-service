@@ -19,7 +19,8 @@ class Coordinate {
     @NotNull
     var y: Float? = null
 
-    constructor() {}
+    @Suppress("unused")
+    constructor()
 
     constructor(x: Float, y: Float) {
         this.id = UUID.randomUUID().toString()

@@ -30,7 +30,8 @@ class Customer {
     @NotNull
     var createdAt: String? = null
 
-    constructor() {}
+    @Suppress("unused")
+    constructor()
 
     constructor(name: String) {
         this.id = UUID.randomUUID().toString()
