@@ -7,6 +7,8 @@ import com.googlecode.objectify.annotation.Index
 import java.util.*
 import javax.validation.constraints.NotNull
 import kotlin.collections.ArrayList
+import kotlin.reflect.KMutableProperty
+import kotlin.reflect.full.memberProperties
 
 @javax.persistence.Entity
 @Entity
@@ -40,5 +42,18 @@ class Customer {
         this.deleted = false
         this.createdAt = Instant.now().toString()
         this.lastUpdatedAt = Instant.now().toString()
+    }
+
+    fun updateIfPresent(key: String, value: Any): Boolean {
+        val property = this.javaClass.kotlin.memberProperties.firstOrNull { it.name == key }
+
+        return if (property != null && property.get(this) != value) {
+            val mutualProperty = property as KMutableProperty<*>
+            mutualProperty.setter.call(this, value)
+            this.lastUpdatedAt = Instant.now().toString()
+            true
+        } else {
+            false
+        }
     }
 }

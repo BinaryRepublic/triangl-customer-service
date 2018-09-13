@@ -43,6 +43,23 @@ class CustomerController {
         }
     }
 
+    @PutMapping("/{id}")
+    fun update(@PathVariable id: String, @RequestBody valuesToUpdate: HashMap<String, *>): ResponseEntity<*> {
+
+        var wasUpdated = false
+        var customer = ofy().load().type(Customer::class.java).id(id).now()
+
+        for ((key, value) in valuesToUpdate) {
+            wasUpdated = customer.updateIfPresent(key, value)
+        }
+
+        if (wasUpdated) {
+            ofy().save().entity(customer).now()
+        }
+
+        return ResponseEntity.ok().body(hashMapOf("updated" to wasUpdated))
+    }
+
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable id: String): ResponseEntity<*> {
         ofy().delete().type(Customer::class.java).id(id).now()
