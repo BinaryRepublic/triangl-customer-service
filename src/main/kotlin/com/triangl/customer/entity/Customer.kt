@@ -43,17 +43,4 @@ class Customer {
         this.createdAt = Instant.now().toString()
         this.lastUpdatedAt = Instant.now().toString()
     }
-
-    fun updateIfPresent(key: String, value: Any): Boolean {
-        val property = this.javaClass.kotlin.memberProperties.firstOrNull { it.name == key }
-
-        return if (property != null && property.get(this) != value) {
-            val mutualProperty = property as KMutableProperty<*>
-            mutualProperty.setter.call(this, value)
-            this.lastUpdatedAt = Instant.now().toString()
-            true
-        } else {
-            false
-        }
-    }
 }
