@@ -15,9 +15,12 @@ class Map {
     @NotNull
     var name: String? = null
 
+    @NotNull
+    var svgPath: String? = null
+
     @Index
     @NotNull
-    var nodes: List<Coordinate>? = null
+    var size: Coordinate? = null
 
     @Index
     @NotNull
@@ -26,10 +29,11 @@ class Map {
     @Suppress("unused")
     constructor()
 
-    constructor(name: String, nodes: List<Coordinate>, routes: List<Router>) {
+    constructor(name: String, svgPath: String, size: Coordinate, routes: List<Router>) {
         this.id = UUID.randomUUID().toString()
         this.name = name
-        this.nodes = nodes
+        this.svgPath = svgPath
+        this.size = size
         this.router = routes
     }
 }
