@@ -2,32 +2,23 @@ package com.triangl.customer.services
 
 import com.googlecode.objectify.ObjectifyService.ofy
 import com.triangl.customer.entity.Customer
+import com.triangl.customer.webservices.datastore.DatastoreWsImp
 import org.springframework.stereotype.Service
 import java.time.Instant
 import kotlin.reflect.KMutableProperty
 import kotlin.reflect.full.declaredMemberProperties
 
-interface CustomerService {
-    fun findAllCustomer(): List<Customer>
-    fun findCustomerById(customerId: String): Customer?
-    fun createCustomer(name: String): Boolean
-    fun updateCustomer(customerId: String, valuesToUpdate: Customer): Boolean
-    fun deleteCustomer(customerId: String): Boolean
-}
-
 @Service("customerService")
-class CustomerServiceImp : CustomerService {
+class CustomerService (
+    private val datastoreWs: DatastoreWsImp
+) {
 
-    override fun findAllCustomer(): List<Customer> {
-        return ofy().load().type(Customer::class.java).list()
-    }
+    fun findAllCustomer(): List<Customer> = datastoreWs.findAllCustomer()
 
-    override fun findCustomerById(customerId: String): Customer? {
-        return ofy().load().type(Customer::class.java).id(customerId).now()
-    }
+    fun findCustomerById(customerId: String): Customer? = datastoreWs.findCustomerById(customerId)
 
-    override fun createCustomer(name: String): Boolean {
-        val customer = Customer(name=name)
+    fun createCustomer(name: String): Boolean {
+        val customer = Customer(name)
         ofy().save().entity(customer).now()
 
         val result: Customer = ofy().load().type(Customer::class.java).id(customer.id).now()
@@ -35,7 +26,7 @@ class CustomerServiceImp : CustomerService {
         return result != null
     }
 
-    override fun updateCustomer(customerId: String, valuesToUpdate: Customer): Boolean {
+    fun updateCustomer(customerId: String, valuesToUpdate: Customer): Boolean {
         val customer = ofy().load().type(Customer::class.java).id(customerId).now()
 
         val wasUpdated = customer.merge(valuesToUpdate)
@@ -48,7 +39,7 @@ class CustomerServiceImp : CustomerService {
         return wasUpdated
     }
 
-    override fun deleteCustomer(customerId: String): Boolean {
+    fun deleteCustomer(customerId: String): Boolean {
         ofy().delete().type(Customer::class.java).id(customerId).now()
         return true
     }

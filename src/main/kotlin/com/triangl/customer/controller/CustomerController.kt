@@ -8,10 +8,9 @@ import org.springframework.http.ResponseEntity
 
 @RestController
 @RequestMapping("/customer")
-class CustomerController {
-
-    @Autowired
-    lateinit var customerService: CustomerService
+class CustomerController (
+    private val customerService: CustomerService
+) {
 
     // Just for development - Remove it later
     @GetMapping("/all")
@@ -22,7 +21,7 @@ class CustomerController {
     }
 
     @GetMapping("/{id}")
-    fun find(@PathVariable id: String): ResponseEntity<*> {
+    fun findById(@PathVariable id: String): ResponseEntity<*> {
         val customer = customerService.findCustomerById(id)
 
         return if (customer == null) {
@@ -33,7 +32,7 @@ class CustomerController {
     }
 
     @PostMapping
-    fun createUser(@RequestBody name: String): ResponseEntity<*> {
+    fun createWithName(@RequestBody name: String): ResponseEntity<*> {
         val created = customerService.createCustomer(name)
 
         return if (created == null) {
@@ -44,14 +43,14 @@ class CustomerController {
     }
 
     @PutMapping("/{id}")
-    fun update(@PathVariable id: String, @RequestBody valuesToUpdate: Customer): ResponseEntity<*> {
+    fun updateById(@PathVariable id: String, @RequestBody valuesToUpdate: Customer): ResponseEntity<*> {
         val updated = customerService.updateCustomer(id, valuesToUpdate)
 
         return ResponseEntity.ok().body(hashMapOf("updated" to updated))
     }
 
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: String): ResponseEntity<*> {
+    fun deleteById(@PathVariable id: String): ResponseEntity<*> {
         val deleted = customerService.deleteCustomer(id)
 
         return ResponseEntity.ok().body(hashMapOf("deleted" to deleted))
