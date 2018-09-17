@@ -56,7 +56,7 @@ class CustomerServiceImp : CustomerService {
     private inline infix fun <reified T : Any> T.merge(other: T): Boolean {
         var wasUpdated = false
 
-        val nameToProperty = this::class.declaredMemberProperties.associateBy { it.name }
+        val nameToProperty = T::class.declaredMemberProperties.associateBy { it.name }
         for (entry in nameToProperty) {
             val mutualProperty = entry.value as KMutableProperty<*>
             if (entry.value.get(other) != null && entry.value.get(other) != entry.value.get(this)) {
