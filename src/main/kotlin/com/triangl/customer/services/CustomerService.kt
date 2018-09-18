@@ -1,8 +1,7 @@
 package com.triangl.customer.services
 
-import com.googlecode.objectify.ObjectifyService.ofy
 import com.triangl.customer.entity.Customer
-import com.triangl.customer.webservices.datastore.DatastoreWsImp
+import com.triangl.customer.webservices.datastore.DatastoreWs
 import org.springframework.stereotype.Service
 import java.time.Instant
 import kotlin.reflect.KMutableProperty
@@ -10,7 +9,7 @@ import kotlin.reflect.full.declaredMemberProperties
 
 @Service("customerService")
 class CustomerService (
-    private val datastoreWs: DatastoreWsImp
+    private val datastoreWs: DatastoreWs
 ) {
 
     fun findAllCustomer(): List<Customer> = datastoreWs.findAllCustomer()
@@ -19,28 +18,28 @@ class CustomerService (
 
     fun createCustomer(name: String): Boolean {
         val customer = Customer(name)
-        ofy().save().entity(customer).now()
+        datastoreWs.saveCustomer(customer)
 
-        val result: Customer = ofy().load().type(Customer::class.java).id(customer.id).now()
+        val result = datastoreWs.findCustomerById(customer.id!!)
 
         return result != null
     }
 
     fun updateCustomer(customerId: String, valuesToUpdate: Customer): Boolean {
-        val customer = ofy().load().type(Customer::class.java).id(customerId).now()
+        val customer = datastoreWs.findCustomerById(customerId)!!
 
         val wasUpdated = customer.merge(valuesToUpdate)
 
         if (wasUpdated) {
             customer.lastUpdatedAt = Instant.now().toString()
-            ofy().save().entity(customer).now()
+            datastoreWs.saveCustomer(customer)
         }
 
         return wasUpdated
     }
 
     fun deleteCustomer(customerId: String): Boolean {
-        ofy().delete().type(Customer::class.java).id(customerId).now()
+        datastoreWs.deleteCustomerById(customerId)
         return true
     }
 
@@ -50,7 +49,10 @@ class CustomerService (
         val nameToProperty = T::class.declaredMemberProperties.associateBy { it.name }
         for (entry in nameToProperty) {
             val mutualProperty = entry.value as KMutableProperty<*>
-            if (entry.value.get(other) != null && entry.value.get(other) != entry.value.get(this)) {
+            if (entry.value.get(other) != null
+             && entry.value.get(other) != entry.value.get(this)
+             && entry.key != "id") {
+
                 mutualProperty.setter.call(this, entry.value.get(other))
                 wasUpdated = true
             }
