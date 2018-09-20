@@ -16,16 +16,14 @@ class CustomerService (
 
     fun findCustomerById(customerId: String): Customer? = datastoreWs.findCustomerById(customerId)
 
-    fun createCustomer(name: String): Boolean {
+    fun createCustomer(name: String): Customer? {
         val customer = Customer(name)
         datastoreWs.saveCustomer(customer)
 
-        val result = datastoreWs.findCustomerById(customer.id!!)
-
-        return result != null
+        return datastoreWs.findCustomerById(customer.id!!)
     }
 
-    fun updateCustomer(customerId: String, valuesToUpdate: Customer): Boolean {
+    fun updateCustomer(customerId: String, valuesToUpdate: Customer): Customer {
         val customer = datastoreWs.findCustomerById(customerId)!!
 
         val wasUpdated = customer.merge(valuesToUpdate)
@@ -35,7 +33,7 @@ class CustomerService (
             datastoreWs.saveCustomer(customer)
         }
 
-        return wasUpdated
+        return customer
     }
 
     fun deleteCustomer(customerId: String): Boolean {

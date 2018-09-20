@@ -21,11 +21,10 @@ import org.mockito.junit.MockitoJUnitRunner
 class CustomerServiceTest{
 
     @Mock
-    private
-    lateinit var datastoreWs: DatastoreWs
+    private lateinit var datastoreWs: DatastoreWs
 
     @InjectMocks
-    lateinit var customerService: CustomerService
+    private lateinit var customerService: CustomerService
 
     @Test
     fun `Should create Customer and call saveCustomer and findCustomer`() {
@@ -33,10 +32,10 @@ class CustomerServiceTest{
         given(datastoreWs.findCustomerById(anyString())).willReturn(Customer("TestName"))
 
         /* When */
-        val created = customerService.createCustomer("TestName")
+        val createdCustomer = customerService.createCustomer("TestName")
 
         /* Then */
-        assertThat(created).isTrue()
+        assertThat(createdCustomer).isNotNull
         verify(datastoreWs).saveCustomer(any())
         verify(datastoreWs).findCustomerById(anyString())
     }
@@ -53,10 +52,10 @@ class CustomerServiceTest{
         given(datastoreWs.findCustomerById(initialCustomer.id!!)).willReturn(initialCustomer)
 
         /* When */
-        val wasUpdated = customerService.updateCustomer(initialCustomer.id!!, newCustomer)
+        val updatedCustomer = customerService.updateCustomer(initialCustomer.id!!, newCustomer)
 
         /* Then */
-        assertThat(wasUpdated).isFalse()
+        assertThat(updatedCustomer).isNotNull
 
     }
 
@@ -72,14 +71,14 @@ class CustomerServiceTest{
         given(datastoreWs.findCustomerById(initialCustomer.id!!)).willReturn(initialCustomer)
 
         /* When */
-        val wasUpdated = customerService.updateCustomer(initialCustomer.id!!, newCustomer)
+        val updatedCustomer = customerService.updateCustomer(initialCustomer.id!!, newCustomer)
 
         /* Then */
-        assertThat(wasUpdated).isTrue()
+        assertThat(updatedCustomer).isNotNull
 
-        assertThat(initialCustomer.id).isNotEqualTo(newCustomer.id)
-        assertThat(initialCustomer.maps).isEqualTo(newCustomer.maps)
-        assertThat(initialCustomer.deleted).isEqualTo(newCustomer.deleted)
-        assertThat(initialCustomer.lastUpdatedAt).isNotEqualTo(newCustomer.lastUpdatedAt)
+        assertThat(updatedCustomer.id).isNotEqualTo(newCustomer.id)
+        assertThat(updatedCustomer.maps).isEqualTo(newCustomer.maps)
+        assertThat(updatedCustomer.deleted).isEqualTo(newCustomer.deleted)
+        assertThat(updatedCustomer.lastUpdatedAt).isNotEqualTo(newCustomer.lastUpdatedAt)
     }
 }
