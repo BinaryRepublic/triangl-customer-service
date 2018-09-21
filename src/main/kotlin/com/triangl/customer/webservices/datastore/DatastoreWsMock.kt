@@ -1,21 +1,24 @@
 package com.triangl.customer.webservices.datastore
 
-import com.googlecode.objectify.Key
 import com.triangl.customer.entity.Customer
-import com.triangl.customer.entity.Map
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
 @Service
 @Profile("test")
 class DatastoreWsMock: DatastoreWs {
-    var testCustomer = arrayListOf(Customer("TestCustomer"))
 
-    override fun findAllCustomer(): List<Customer> = testCustomer
+    private fun customer(id: String): Customer {
+        return Customer("name_$id").apply {
+            this.id = id
+        }
+    }
 
-    override fun findCustomerById(customerId: String): Customer? = testCustomer[0]
+    override fun findAllCustomer(): List<Customer> = arrayListOf(customer("c1"))
 
-    override fun saveCustomer(customer: Customer) {}
+    override fun findCustomerById(customerId: String): Customer? = customer(customerId)
 
-    override fun deleteCustomerById(customerId: String) {}
+    override fun saveCustomer(customer: Customer) { }
+
+    override fun deleteCustomerById(customerId: String) { }
 }

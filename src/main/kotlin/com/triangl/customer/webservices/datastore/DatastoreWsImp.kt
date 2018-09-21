@@ -3,9 +3,11 @@ package com.triangl.customer.webservices.datastore
 import com.googlecode.objectify.Key
 import com.googlecode.objectify.ObjectifyService.ofy
 import com.triangl.customer.entity.Customer
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
 @Service
+@Profile("development")
 class DatastoreWsImp: DatastoreWs {
     override fun findAllCustomer(): List<Customer> = ofy().load().type(Customer::class.java).list()
 
