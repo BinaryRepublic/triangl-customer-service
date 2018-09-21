@@ -1,20 +1,20 @@
 package com.triangl.customer
 
-import com.triangl.customer.entity.Customer
-import com.triangl.customer.services.CustomerService
-import com.triangl.customer.webservices.datastore.DatastoreWs
-import com.nhaarman.mockito_kotlin.given
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.given
 import com.triangl.customer.entity.Coordinate
+import com.triangl.customer.entity.Customer
 import com.triangl.customer.entity.Map
 import com.triangl.customer.entity.Router
-import org.mockito.ArgumentMatchers.anyString
+import com.triangl.customer.services.CustomerService
+import com.triangl.customer.webservices.datastore.DatastoreWs
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
+import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
-import org.mockito.Mockito.*
+import org.mockito.Mock
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)

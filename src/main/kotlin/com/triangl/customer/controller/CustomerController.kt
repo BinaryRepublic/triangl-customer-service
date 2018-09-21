@@ -1,9 +1,9 @@
 package com.triangl.customer.controller
 
 import com.triangl.customer.entity.Customer
-import org.springframework.web.bind.annotation.*
 import com.triangl.customer.services.CustomerService
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/customer")

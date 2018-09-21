@@ -1,6 +1,5 @@
 package com.triangl.customer.webservices.datastore
 
-import com.googlecode.objectify.Key
 import com.triangl.customer.entity.Customer
 
 interface DatastoreWs {

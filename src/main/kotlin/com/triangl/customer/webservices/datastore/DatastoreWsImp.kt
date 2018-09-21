@@ -1,6 +1,5 @@
 package com.triangl.customer.webservices.datastore
 
-import com.googlecode.objectify.Key
 import com.googlecode.objectify.ObjectifyService.ofy
 import com.triangl.customer.entity.Customer
 import org.springframework.context.annotation.Profile

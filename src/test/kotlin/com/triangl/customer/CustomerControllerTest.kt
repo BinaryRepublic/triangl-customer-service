@@ -3,27 +3,28 @@ package com.triangl.customer
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.eq
 import com.nhaarman.mockito_kotlin.given
-import com.triangl.customer.entity.Map
-import com.triangl.customer.entity.Customer
-import com.triangl.customer.services.CustomerService
 import com.triangl.customer.controller.CustomerController
-import org.junit.Test
+import com.triangl.customer.entity.Customer
+import com.triangl.customer.entity.Map
+import com.triangl.customer.services.CustomerService
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.hasSize
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.InjectMocks
-import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.ArgumentMatchers.anyString
-import org.springframework.http.MediaType
+import org.mockito.InjectMocks
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.hamcrest.Matchers.*
 
 
 @RunWith(MockitoJUnitRunner::class)

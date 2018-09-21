@@ -1,14 +1,12 @@
 package com.triangl.customer.entity
 
-import java.time.Instant
 import com.googlecode.objectify.annotation.Entity
 import com.googlecode.objectify.annotation.Id
 import com.googlecode.objectify.annotation.Index
+import java.time.Instant
 import java.util.*
 import javax.validation.constraints.NotNull
 import kotlin.collections.ArrayList
-import kotlin.reflect.KMutableProperty
-import kotlin.reflect.full.memberProperties
 
 @javax.persistence.Entity
 @Entity

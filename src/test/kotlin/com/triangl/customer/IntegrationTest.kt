@@ -6,18 +6,18 @@ import com.triangl.customer.entity.Coordinate
 import com.triangl.customer.entity.Customer
 import com.triangl.customer.entity.Map
 import com.triangl.customer.entity.Router
-import org.junit.Test
-import org.junit.Before
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.junit4.SpringRunner
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
+import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.junit4.SpringRunner
 
 @Component
 class ObjectifyWebFilter : ObjectifyFilter()
