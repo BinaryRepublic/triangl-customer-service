@@ -2,11 +2,12 @@ package com.triangl.customer.controller
 
 import com.triangl.customer.entity.Customer
 import com.triangl.customer.services.CustomerService
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/customer", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
 class CustomerController (
     private val customerService: CustomerService
 ) {

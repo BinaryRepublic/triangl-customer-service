@@ -6,8 +6,9 @@ import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
 @Service
-@Profile("development")
+@Profile("production")
 class DatastoreWsImp: DatastoreWs {
+
     override fun findAllCustomer(): List<Customer> = ofy().load().type(Customer::class.java).list()
 
     override fun findCustomerById(customerId: String): Customer? = ofy().load().type(Customer::class.java).id(customerId).now()

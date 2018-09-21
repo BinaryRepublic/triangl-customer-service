@@ -1,11 +1,7 @@
 package com.triangl.customer
 
-import com.googlecode.objectify.ObjectifyFilter
-import com.googlecode.objectify.ObjectifyService
-import com.triangl.customer.entity.Coordinate
 import com.triangl.customer.entity.Customer
 import com.triangl.customer.entity.Map
-import com.triangl.customer.entity.Router
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import org.hamcrest.Matchers.*
@@ -15,29 +11,19 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
-import org.springframework.stereotype.Component
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
-
-@Component
-class ObjectifyWebFilter : ObjectifyFilter()
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-class IntegrationTest {
+class CustomerIntegrationTest {
 
     @Value("\${local.server.port}")
     private val serverPort: Int = 0
 
     @Before
     fun setUp() {
-        ObjectifyService.init()
-        ObjectifyService.register(Customer::class.java)
-        ObjectifyService.register(Map::class.java)
-        ObjectifyService.register(Router::class.java)
-        ObjectifyService.register(Coordinate::class.java)
-
         RestAssured.port = serverPort
     }
 

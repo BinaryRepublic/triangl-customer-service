@@ -56,7 +56,6 @@ class CustomerServiceTest{
 
         /* Then */
         assertThat(updatedCustomer).isNotNull
-
     }
 
     @Test
