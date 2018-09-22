@@ -30,11 +30,11 @@ class CustomerIntegrationTest {
     @Test
     fun `should return a list of customers`() {
         RestAssured.given()
-                .get("/customer/all")
+                .get("/customers/all")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
-                .body("customerList", hasSize<Customer>(1))
+                .body("customers", hasSize<Customer>(1))
     }
 
     @Test
@@ -42,13 +42,13 @@ class CustomerIntegrationTest {
         val customerId = "SomeRandomId"
 
         RestAssured.given()
-                .get("/customer/$customerId")
+                .get("/customers/$customerId")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
-                .body("customer.id", `is`(customerId))
-                .body("customer.name", `is`("name_$customerId"))
-                .body("customer.maps", `is`(arrayListOf<Map>()))
+                .body("id", `is`(customerId))
+                .body("name", `is`("name_$customerId"))
+                .body("maps", `is`(arrayListOf<Map>()))
     }
 
     @Test
@@ -56,12 +56,12 @@ class CustomerIntegrationTest {
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body("{ \"name\": \"TestUser\" }")
-                .post("/customer")
+                .post("/customers")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
-                .body("customer.id", isA(String::class.java))
-                .body("customer.maps", `is`(arrayListOf<Map>()))
+                .body("id", isA(String::class.java))
+                .body("maps", `is`(arrayListOf<Map>()))
     }
 
     @Test
@@ -71,23 +71,22 @@ class CustomerIntegrationTest {
         RestAssured.given()
                 .contentType(ContentType.JSON)
                 .body("{ \"name\": \"updated\", \"deleted\": true }")
-                .patch("/customer/$customerId")
+                .patch("/customers/$customerId")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
-                .body("customer.id", `is`(customerId))
-                .body("customer.name", `is`("updated"))
-                .body("customer.deleted", `is`(true))
+                .body("id", `is`(customerId))
+                .body("name", `is`("updated"))
+                .body("deleted", `is`(true))
 
     }
 
     @Test
     fun `should return a boolean if the customer is deleted or not`() {
         RestAssured.given()
-                .delete("/customer/SomeID")
+                .delete("/customers/SomeID")
                 .then()
                 .log().ifValidationFails()
-                .statusCode(HttpStatus.OK.value())
-                .body("deleted", `is`(true))
+                .statusCode(HttpStatus.NO_CONTENT.value())
     }
 }

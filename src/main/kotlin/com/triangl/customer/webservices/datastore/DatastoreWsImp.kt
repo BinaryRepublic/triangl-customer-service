@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Profile("production")
 class DatastoreWsImp: DatastoreWs {
 
-    override fun findAllCustomer(): List<Customer> = ofy().load().type(Customer::class.java).list()
+    override fun findAllCustomers(): List<Customer> = ofy().load().type(Customer::class.java).list()
 
     override fun findCustomerById(customerId: String): Customer? = ofy().load().type(Customer::class.java).id(customerId).now()
 

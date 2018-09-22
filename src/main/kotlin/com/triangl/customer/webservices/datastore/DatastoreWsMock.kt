@@ -14,7 +14,7 @@ class DatastoreWsMock: DatastoreWs {
         }
     }
 
-    override fun findAllCustomer(): List<Customer> = arrayListOf(customer("c1"))
+    override fun findAllCustomers(): List<Customer> = arrayListOf(customer("c1"))
 
     override fun findCustomerById(customerId: String): Customer? = customer(customerId)
 

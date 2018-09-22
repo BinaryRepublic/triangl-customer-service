@@ -12,7 +12,7 @@ class CustomerService (
     private val datastoreWs: DatastoreWs
 ) {
 
-    fun findAllCustomer(): List<Customer> = datastoreWs.findAllCustomer()
+    fun findAllCustomers(): List<Customer> = datastoreWs.findAllCustomers()
 
     fun findCustomerById(customerId: String): Customer? = datastoreWs.findCustomerById(customerId)
 
@@ -36,9 +36,8 @@ class CustomerService (
         return customer
     }
 
-    fun deleteCustomer(customerId: String): Boolean {
+    fun deleteCustomer(customerId: String) {
         datastoreWs.deleteCustomerById(customerId)
-        return true
     }
 
     private inline infix fun <reified T : Any> T.merge(other: T): Boolean {

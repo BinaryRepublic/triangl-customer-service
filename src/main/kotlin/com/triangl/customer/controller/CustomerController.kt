@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/customer", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+@RequestMapping("/customers", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
 class CustomerController (
     private val customerService: CustomerService
 ) {
@@ -15,9 +15,9 @@ class CustomerController (
     // Just for development - Remove it later
     @GetMapping("/all")
     fun findAll(): ResponseEntity<*> {
-        val customerList = customerService.findAllCustomer()
+        val customerList = customerService.findAllCustomers()
 
-        return ResponseEntity.ok().body(hashMapOf("customerList" to customerList))
+        return ResponseEntity.ok().body(hashMapOf("customers" to customerList))
     }
 
     @GetMapping("/{id}")
@@ -27,7 +27,7 @@ class CustomerController (
         return if (customer == null) {
             ResponseEntity.status(400).body(hashMapOf("error" to "Customer ID not found"))
         } else {
-            ResponseEntity.ok().body(hashMapOf("customer" to customer))
+            ResponseEntity.ok().body(customer)
         }
     }
 
@@ -38,7 +38,7 @@ class CustomerController (
         return if (customer == null) {
             ResponseEntity.status(400).body(hashMapOf("error" to "Customer ID not found"))
         } else {
-            ResponseEntity.ok().body(hashMapOf("customer" to customer))
+            ResponseEntity.ok().body(customer)
         }
     }
 
@@ -46,13 +46,13 @@ class CustomerController (
     fun updateById(@PathVariable id: String, @RequestBody valuesToUpdate: Customer): ResponseEntity<*> {
         val customer = customerService.updateCustomer(id, valuesToUpdate)
 
-        return ResponseEntity.ok().body(hashMapOf("customer" to customer))
+        return ResponseEntity.ok().body(customer)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteById(@PathVariable id: String): ResponseEntity<*> {
-        val wasDeleted = customerService.deleteCustomer(id)
+    fun deleteById(@PathVariable id: String): ResponseEntity<Void> {
+        customerService.deleteCustomer(id)
 
-        return ResponseEntity.ok().body(hashMapOf("deleted" to wasDeleted))
+        return ResponseEntity.noContent().build()
     }
 }

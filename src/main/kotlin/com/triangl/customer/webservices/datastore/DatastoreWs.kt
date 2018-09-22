@@ -4,7 +4,7 @@ import com.triangl.customer.entity.Customer
 
 interface DatastoreWs {
 
-    fun findAllCustomer(): List<Customer>
+    fun findAllCustomers(): List<Customer>
 
     fun findCustomerById(customerId: String): Customer?
 

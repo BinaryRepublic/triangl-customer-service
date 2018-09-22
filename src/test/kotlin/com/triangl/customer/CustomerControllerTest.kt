@@ -12,7 +12,6 @@ import org.hamcrest.Matchers.hasSize
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentMatchers.anyString
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
@@ -54,17 +53,17 @@ class CustomerControllerTest{
         val customer2 = Customer("Customer2")
         val customerList = listOf(customer1, customer2)
 
-        given(customerService.findAllCustomer()).willReturn(customerList)
+        given(customerService.findAllCustomers()).willReturn(customerList)
 
         /* When, Then */
-        mockMvc.perform(get("/customer/all"))
+        mockMvc.perform(get("/customers/all"))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.customerList", hasSize<Customer>(2)))
-                .andExpect(jsonPath("$.customerList[0].id", `is`(customer1.id)))
-                .andExpect(jsonPath("$.customerList[0].name", `is`(customer1.name)))
-                .andExpect(jsonPath("$.customerList[1].id", `is`(customer2.id)))
-                .andExpect(jsonPath("$.customerList[1].name", `is`(customer2.name)))
+                .andExpect(jsonPath("$.customers", hasSize<Customer>(2)))
+                .andExpect(jsonPath("$.customers[0].id", `is`(customer1.id)))
+                .andExpect(jsonPath("$.customers[0].name", `is`(customer1.name)))
+                .andExpect(jsonPath("$.customers[1].id", `is`(customer2.id)))
+                .andExpect(jsonPath("$.customers[1].name", `is`(customer2.name)))
     }
 
     @Test
@@ -75,11 +74,11 @@ class CustomerControllerTest{
         given(customerService.findCustomerById(customer3.id!!)).willReturn(customer3)
 
         /* When, Then */
-        mockMvc.perform(get("/customer/${customer3.id}"))
+        mockMvc.perform(get("/customers/${customer3.id}"))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.customer.id", `is`(customer3.id)))
-                .andExpect(jsonPath("$.customer.name", `is`(customer3.name)))
+                .andExpect(jsonPath("$.id", `is`(customer3.id)))
+                .andExpect(jsonPath("$.name", `is`(customer3.name)))
     }
 
     @Test
@@ -90,7 +89,7 @@ class CustomerControllerTest{
         given(customerService.findCustomerById(customer4.id!!)).willReturn(null)
 
         /* When, Then */
-        mockMvc.perform(get("/customer/${customer4.id}"))
+        mockMvc.perform(get("/customers/${customer4.id}"))
                 .andDo(print())
                 .andExpect(status().isBadRequest)
                 .andExpect(jsonPath("$.error", `is`("Customer ID not found")))
@@ -104,14 +103,14 @@ class CustomerControllerTest{
         given(customerService.createCustomer(name)).willReturn(Customer(name))
 
         /* When, Then */
-        mockMvc.perform(post("/customer")
+        mockMvc.perform(post("/customers")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(name))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.customer.name", `is`(name)))
-                .andExpect(jsonPath("$.customer.deleted", `is`(false)))
-                .andExpect(jsonPath("$.customer.maps", `is`(listOf<Map>())))
+                .andExpect(jsonPath("$.name", `is`(name)))
+                .andExpect(jsonPath("$.deleted", `is`(false)))
+                .andExpect(jsonPath("$.maps", `is`(listOf<Map>())))
     }
 
     @Test
@@ -122,7 +121,7 @@ class CustomerControllerTest{
         given(customerService.createCustomer(name)).willReturn(null)
 
         /* When, Then */
-        mockMvc.perform(post("/customer")
+        mockMvc.perform(post("/customers")
                             .contentType(MediaType.APPLICATION_JSON)
                             .content(name))
                 .andDo(print())
@@ -141,25 +140,20 @@ class CustomerControllerTest{
         given(customerService.updateCustomer(eq(initialCustomer.id!!), any<Customer>())).willReturn(newCustomer)
 
         /* When, Then */
-        mockMvc.perform(patch("/customer/${initialCustomer.id}")
+        mockMvc.perform(patch("/customers/${initialCustomer.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"deleted\": true }"))
                 .andDo(print())
                 .andExpect(status().isOk)
-                .andExpect(jsonPath("$.customer.id", `is`(initialCustomer.id)))
-                .andExpect(jsonPath("$.customer.deleted", `is`(newCustomer.deleted)))
+                .andExpect(jsonPath("$.id", `is`(initialCustomer.id)))
+                .andExpect(jsonPath("$.deleted", `is`(newCustomer.deleted)))
     }
 
     @Test
-    fun `should return wasDeleted = true`() {
-        /* Given */
-        val customer9 = Customer("Customer9")
-        given(customerService.deleteCustomer(anyString())).willReturn(true)
-
+    fun `should return 204 no content`() {
         /* When, Then */
-        mockMvc.perform(delete("/customer/${customer9.id}"))
+        mockMvc.perform(delete("/customers/SomeRandomIp"))
                 .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.deleted", `is`(true)))
+                .andExpect(status().isNoContent)
     }
 }
