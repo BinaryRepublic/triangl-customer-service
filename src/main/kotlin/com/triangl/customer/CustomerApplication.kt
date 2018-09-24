@@ -8,15 +8,16 @@ import com.triangl.customer.entity.Map
 import com.triangl.customer.entity.Router
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 
 @Component
+@Profile("production")
 class ObjectifyWebFilter : ObjectifyFilter()
 
 @SpringBootApplication
 class CustomerApplication
 fun main(args: Array<String>) {
-
 
     ObjectifyService.init()
     ObjectifyService.register(Customer::class.java)

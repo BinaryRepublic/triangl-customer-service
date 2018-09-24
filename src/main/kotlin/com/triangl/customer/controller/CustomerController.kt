@@ -1,69 +1,58 @@
 package com.triangl.customer.controller
 
 import com.triangl.customer.entity.Customer
-import org.springframework.web.bind.annotation.*
-import com.googlecode.objectify.ObjectifyService.ofy
+import com.triangl.customer.services.CustomerService
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/customer")
-class CustomerController {
+@RequestMapping("/customers", produces = [MediaType.APPLICATION_JSON_UTF8_VALUE])
+class CustomerController (
+    private val customerService: CustomerService
+) {
 
     // Just for development - Remove it later
     @GetMapping("/all")
     fun findAll(): ResponseEntity<*> {
+        val customerList = customerService.findAllCustomers()
 
-        val result = ofy().load().type(Customer::class.java).list()
-        return ResponseEntity.ok().body(hashMapOf("customerList" to result))
+        return ResponseEntity.ok().body(hashMapOf("customers" to customerList))
     }
 
     @GetMapping("/{id}")
-    fun find(@PathVariable id: String): ResponseEntity<*> {
-        val result = ofy().load().type(Customer::class.java).id(id).now()
+    fun findById(@PathVariable id: String): ResponseEntity<*> {
+        val customer = customerService.findCustomerById(id)
 
-        return if (result == null) {
+        return if (customer == null) {
             ResponseEntity.status(400).body(hashMapOf("error" to "Customer ID not found"))
         } else {
-            ResponseEntity.ok().body(hashMapOf("customer" to result))
+            ResponseEntity.ok().body(customer)
         }
     }
 
     @PostMapping
-    fun createUser(@RequestBody name: String): ResponseEntity<*> {
+    fun createWithName(@RequestBody name: String): ResponseEntity<*> {
+        val customer = customerService.createCustomer(name)
 
-        val cust = Customer(name=name)
-        ofy().save().entity(cust).now()
-
-        val result: Customer = ofy().load().type(Customer::class.java).id(cust.id).now()
-
-        return if (result == null) {
+        return if (customer == null) {
             ResponseEntity.status(400).body(hashMapOf("error" to "Customer ID not found"))
         } else {
-            ResponseEntity.ok().body(hashMapOf("customer" to result))
+            ResponseEntity.ok().body(customer)
         }
     }
 
-    @PutMapping("/{id}")
-    fun update(@PathVariable id: String, @RequestBody valuesToUpdate: HashMap<String, *>): ResponseEntity<*> {
+    @PatchMapping("/{id}")
+    fun updateById(@PathVariable id: String, @RequestBody valuesToUpdate: Customer): ResponseEntity<*> {
+        val customer = customerService.updateCustomer(id, valuesToUpdate)
 
-        var wasUpdated = false
-        var customer = ofy().load().type(Customer::class.java).id(id).now()
-
-        for ((key, value) in valuesToUpdate) {
-            wasUpdated = customer.updateIfPresent(key, value)
-        }
-
-        if (wasUpdated) {
-            ofy().save().entity(customer).now()
-        }
-
-        return ResponseEntity.ok().body(hashMapOf("updated" to wasUpdated))
+        return ResponseEntity.ok().body(customer)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteUser(@PathVariable id: String): ResponseEntity<*> {
-        ofy().delete().type(Customer::class.java).id(id).now()
+    fun deleteById(@PathVariable id: String): ResponseEntity<Void> {
+        customerService.deleteCustomer(id)
 
-        return ResponseEntity.ok().body(hashMapOf("deleted" to true))
+        return ResponseEntity.noContent().build()
     }
 }
