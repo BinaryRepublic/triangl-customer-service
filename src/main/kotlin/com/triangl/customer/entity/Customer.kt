@@ -1,15 +1,15 @@
 package com.triangl.customer.entity
 
-import com.googlecode.objectify.annotation.Entity
 import com.googlecode.objectify.annotation.Id
 import com.googlecode.objectify.annotation.Index
 import java.time.Instant
 import java.util.*
+import javax.persistence.Entity
 import javax.validation.constraints.NotNull
 import kotlin.collections.ArrayList
 
-@javax.persistence.Entity
 @Entity
+@com.googlecode.objectify.annotation.Entity
 class Customer {
     @Id
     var id: String? = null
