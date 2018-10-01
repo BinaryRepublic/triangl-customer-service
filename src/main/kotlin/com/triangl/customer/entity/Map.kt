@@ -1,15 +1,12 @@
 package com.triangl.customer.entity
 
-import com.googlecode.objectify.annotation.Entity
-import com.googlecode.objectify.annotation.Id
-import com.googlecode.objectify.annotation.Index
 import java.util.*
+import javax.persistence.Entity
 import javax.validation.constraints.NotNull
 
-@javax.persistence.Entity
 @Entity
 class Map {
-    @Id
+    @NotNull
     var id: String? = null
 
     @NotNull
@@ -18,11 +15,9 @@ class Map {
     @NotNull
     var svgPath: String? = null
 
-    @Index
     @NotNull
     var size: Coordinate? = null
 
-    @Index
     @NotNull
     var router: List<Router>? = null
 

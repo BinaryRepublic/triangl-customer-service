@@ -1,14 +1,11 @@
 package com.triangl.customer.entity
 
-import com.googlecode.objectify.annotation.Entity
-import com.googlecode.objectify.annotation.Id
 import java.util.*
+import javax.persistence.Entity
 import javax.validation.constraints.NotNull
 
-@javax.persistence.Entity
 @Entity
 class Coordinate {
-    @Id
     @NotNull
     var id: String? = null
 
