@@ -28,6 +28,10 @@ class CustomerService (
 
         val wasUpdated = customer.merge(valuesToUpdate)
 
+        if (wasUpdated && valuesToUpdate.maps != null) {
+            customer.maps!!.map { it.lastUpdatedAt = Instant.now().toString() }
+        }
+
         if (wasUpdated) {
             customer.lastUpdatedAt = Instant.now().toString()
             datastoreWs.saveCustomer(customer)

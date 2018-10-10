@@ -1,5 +1,6 @@
 package com.triangl.customer.entity
 
+import java.time.Instant
 import java.util.*
 import javax.persistence.Entity
 import javax.validation.constraints.NotNull
@@ -12,11 +13,22 @@ class Router {
     @NotNull
     var location: Coordinate? = null
 
+    @NotNull
+    var lastUpdatedAt: String? = null
+
+    @NotNull
+    var createdAt: String? = null
+
     @Suppress("unused")
     constructor()
 
     constructor(x: Float, y: Float) {
         this.id = UUID.randomUUID().toString()
         this.location = Coordinate(x,y)
+    }
+
+    init {
+        this.createdAt = Instant.now().toString()
+        this.lastUpdatedAt = Instant.now().toString()
     }
 }

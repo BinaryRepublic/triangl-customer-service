@@ -1,5 +1,6 @@
 package com.triangl.customer.entity
 
+import java.time.Instant
 import java.util.*
 import javax.persistence.Entity
 import javax.validation.constraints.NotNull
@@ -15,6 +16,12 @@ class Coordinate {
     @NotNull
     var y: Float? = null
 
+    @NotNull
+    var lastUpdatedAt: String? = null
+
+    @NotNull
+    var createdAt: String? = null
+
     @Suppress("unused")
     constructor()
 
@@ -22,5 +29,10 @@ class Coordinate {
         this.id = UUID.randomUUID().toString()
         this.x = x
         this.y = y
+    }
+
+    init {
+        this.createdAt = Instant.now().toString()
+        this.lastUpdatedAt = Instant.now().toString()
     }
 }

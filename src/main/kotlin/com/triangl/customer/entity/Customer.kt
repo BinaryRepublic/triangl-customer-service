@@ -22,9 +22,6 @@ class Customer {
     var maps: List<Map>? = null
 
     @NotNull
-    var deleted: Boolean? = null
-
-    @NotNull
     var lastUpdatedAt: String? = null
 
     @NotNull
@@ -37,7 +34,6 @@ class Customer {
         this.id = UUID.randomUUID().toString()
         this.name = name
         this.maps = ArrayList()
-        this.deleted = false
         this.createdAt = Instant.now().toString()
         this.lastUpdatedAt = Instant.now().toString()
     }

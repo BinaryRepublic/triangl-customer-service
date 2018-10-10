@@ -1,5 +1,6 @@
 package com.triangl.customer.entity
 
+import java.time.Instant
 import java.util.*
 import javax.persistence.Entity
 import javax.validation.constraints.NotNull
@@ -21,6 +22,12 @@ class Map {
     @NotNull
     var router: List<Router>? = null
 
+    @NotNull
+    var lastUpdatedAt: String? = null
+
+    @NotNull
+    var createdAt: String? = null
+
     @Suppress("unused")
     constructor()
 
@@ -30,5 +37,11 @@ class Map {
         this.svgPath = svgPath
         this.size = size
         this.router = routes
+    }
+
+    init {
+        this.createdAt = Instant.now().toString()
+        this.lastUpdatedAt = Instant.now().toString()
+        println("sad")
     }
 }
