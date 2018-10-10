@@ -70,14 +70,13 @@ class CustomerIntegrationTest {
 
         RestAssured.given()
                 .contentType(ContentType.JSON)
-                .body("{ \"name\": \"updated\", \"deleted\": true }")
+                .body("{ \"name\": \"updated\" }")
                 .patch("/customers/$customerId")
                 .then()
                 .log().ifValidationFails()
                 .statusCode(HttpStatus.OK.value())
                 .body("id", `is`(customerId))
                 .body("name", `is`("updated"))
-                .body("deleted", `is`(true))
 
     }
 

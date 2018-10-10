@@ -64,7 +64,7 @@ class CustomerServiceTest{
         val initialCustomer = Customer("TestName")
         val newCustomer = Customer("TestName")
         newCustomer.apply { createdAt = initialCustomer.createdAt
-                            deleted = true
+                            name = "Updated"
                             maps = listOf(Map("TestMap","TestPath", Coordinate(1F,1F), listOf(Router(2F,2F))))}
 
         given(datastoreWs.findCustomerById(initialCustomer.id!!)).willReturn(initialCustomer)
@@ -77,7 +77,7 @@ class CustomerServiceTest{
 
         assertThat(updatedCustomer.id).isNotEqualTo(newCustomer.id)
         assertThat(updatedCustomer.maps).isEqualTo(newCustomer.maps)
-        assertThat(updatedCustomer.deleted).isEqualTo(newCustomer.deleted)
+        assertThat(updatedCustomer.name).isEqualTo(newCustomer.name)
         assertThat(updatedCustomer.lastUpdatedAt).isNotEqualTo(newCustomer.lastUpdatedAt)
     }
 }
