@@ -1,6 +1,10 @@
 package com.triangl.customer.services
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.triangl.customer.CustomerApplication
 import com.triangl.customer.entity.Customer
+import com.triangl.customer.pubSubEntity.PubSubEvent
+import com.triangl.customer.pubSubEntity.PubSubMessage
 import com.triangl.customer.webservices.datastore.DatastoreWs
 import org.springframework.stereotype.Service
 import java.time.Instant
@@ -9,7 +13,8 @@ import kotlin.reflect.full.declaredMemberProperties
 
 @Service("customerService")
 class CustomerService (
-    private val datastoreWs: DatastoreWs
+    private val datastoreWs: DatastoreWs,
+    private val messagingGateway: CustomerApplication.PubsubOutboundGateway
 ) {
 
     fun findAllCustomers(): List<Customer> = datastoreWs.findAllCustomers()
@@ -20,7 +25,10 @@ class CustomerService (
         val customer = Customer(name)
         datastoreWs.saveCustomer(customer)
 
-        return datastoreWs.findCustomerById(customer.id!!)
+        val dbCustomer = datastoreWs.findCustomerById(customer.id!!)!!
+        sendCustomerToPubSub(dbCustomer)
+
+        return dbCustomer
     }
 
     fun updateCustomer(customerId: String, valuesToUpdate: Customer): Customer {
@@ -37,7 +45,10 @@ class CustomerService (
             datastoreWs.saveCustomer(customer)
         }
 
-        return customer
+        val dbCustomer = datastoreWs.findCustomerById(customerId)!!
+        sendCustomerToPubSub(dbCustomer)
+
+        return dbCustomer
     }
 
     fun deleteCustomer(customerId: String) {
@@ -60,5 +71,12 @@ class CustomerService (
         }
 
         return wasUpdated
+    }
+
+    fun sendCustomerToPubSub(customer: Customer) {
+        val pubSubEvent = PubSubEvent(customer, "APPLY_CUSTOMER")
+        val pubSubMessage = PubSubMessage(listOf(pubSubEvent))
+        val jsonString = jacksonObjectMapper().writeValueAsString(pubSubMessage)
+        messagingGateway.sendToPubsub(jsonString)
     }
 }
