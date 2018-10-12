@@ -6,6 +6,7 @@ import com.triangl.customer.entity.Customer
 import com.triangl.customer.pubSubEntity.PubSubEvent
 import com.triangl.customer.pubSubEntity.PubSubMessage
 import com.triangl.customer.webservices.datastore.DatastoreWs
+import com.triangl.customer.webservices.pubsub.PubSubWs
 import org.springframework.stereotype.Service
 import java.time.Instant
 import kotlin.reflect.KMutableProperty
@@ -14,7 +15,7 @@ import kotlin.reflect.full.declaredMemberProperties
 @Service("customerService")
 class CustomerService (
     private val datastoreWs: DatastoreWs,
-    private val messagingGateway: CustomerApplication.PubsubOutboundGateway
+    private val pubsubWs: PubSubWs
 ) {
 
     fun findAllCustomers(): List<Customer> = datastoreWs.findAllCustomers()
@@ -26,7 +27,7 @@ class CustomerService (
         datastoreWs.saveCustomer(customer)
 
         val dbCustomer = datastoreWs.findCustomerById(customer.id!!)!!
-        sendCustomerToPubSub(dbCustomer)
+        pubsubWs.sendCustomerToPubSub(dbCustomer)
 
         return dbCustomer
     }
@@ -46,7 +47,7 @@ class CustomerService (
         }
 
         val dbCustomer = datastoreWs.findCustomerById(customerId)!!
-        sendCustomerToPubSub(dbCustomer)
+        pubsubWs.sendCustomerToPubSub(dbCustomer)
 
         return dbCustomer
     }
@@ -71,12 +72,5 @@ class CustomerService (
         }
 
         return wasUpdated
-    }
-
-    fun sendCustomerToPubSub(customer: Customer) {
-        val pubSubEvent = PubSubEvent(customer, "APPLY_CUSTOMER")
-        val pubSubMessage = PubSubMessage(listOf(pubSubEvent))
-        val jsonString = jacksonObjectMapper().writeValueAsString(pubSubMessage)
-        messagingGateway.sendToPubsub(jsonString)
     }
 }

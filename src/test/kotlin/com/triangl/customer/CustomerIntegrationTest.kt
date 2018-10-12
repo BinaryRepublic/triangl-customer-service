@@ -64,21 +64,6 @@ class CustomerIntegrationTest {
                 .body("maps", `is`(arrayListOf<Map>()))
     }
 
-    @Test
-    fun `should return the updated customer`() {
-        val customerId = "SomeRandomId"
-
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body("{ \"name\": \"updated\" }")
-                .patch("/customers/$customerId")
-                .then()
-                .log().ifValidationFails()
-                .statusCode(HttpStatus.OK.value())
-                .body("id", `is`(customerId))
-                .body("name", `is`("updated"))
-
-    }
 
     @Test
     fun `should return a boolean if the customer is deleted or not`() {

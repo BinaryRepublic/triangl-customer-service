@@ -8,6 +8,7 @@ import com.triangl.customer.entity.Map
 import com.triangl.customer.entity.Router
 import com.triangl.customer.services.CustomerService
 import com.triangl.customer.webservices.datastore.DatastoreWs
+import com.triangl.customer.webservices.pubsub.PubSubWs
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,12 +17,18 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.TestPropertySource
 
 @RunWith(MockitoJUnitRunner::class)
+@SpringBootTest
 class CustomerServiceTest{
 
     @Mock
     private lateinit var datastoreWs: DatastoreWs
+
+    @Mock
+    private lateinit var pubsubWs: PubSubWs
 
     @InjectMocks
     private lateinit var customerService: CustomerService
