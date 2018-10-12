@@ -1,10 +1,6 @@
 package com.triangl.customer.services
 
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.triangl.customer.CustomerApplication
 import com.triangl.customer.entity.Customer
-import com.triangl.customer.pubSubEntity.PubSubEvent
-import com.triangl.customer.pubSubEntity.PubSubMessage
 import com.triangl.customer.webservices.datastore.DatastoreWs
 import com.triangl.customer.webservices.pubsub.PubSubWs
 import org.springframework.stereotype.Service

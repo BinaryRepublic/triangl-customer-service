@@ -3,8 +3,9 @@ package com.triangl.customer.webservices.pubsub
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.triangl.customer.CustomerApplication
 import com.triangl.customer.entity.Customer
-import com.triangl.customer.pubSubEntity.PubSubEvent
-import com.triangl.customer.pubSubEntity.PubSubMessage
+import com.triangl.customer.pubSubEntity.OperationType
+import com.triangl.customer.pubSubEntity.PubSubMessageDto
+import com.triangl.customer.pubSubEntity.PubSubDto
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Service
 
@@ -14,8 +15,8 @@ class PubSubWsImp (
         private val messagingGateway: CustomerApplication.PubsubOutboundGateway
 ): PubSubWs {
     override fun sendCustomerToPubSub(customer: Customer) {
-        val pubSubEvent = PubSubEvent(customer, "APPLY_CUSTOMER")
-        val pubSubMessage = PubSubMessage(listOf(pubSubEvent))
+        val pubSubEvent = PubSubMessageDto(customer, OperationType.APPLY_CUSTOMER)
+        val pubSubMessage = PubSubDto(listOf(pubSubEvent))
         val jsonString = jacksonObjectMapper().writeValueAsString(pubSubMessage)
         messagingGateway.sendToPubsub(jsonString)
     }
