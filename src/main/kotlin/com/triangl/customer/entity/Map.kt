@@ -42,6 +42,5 @@ class Map {
     init {
         this.createdAt = Instant.now().toString()
         this.lastUpdatedAt = Instant.now().toString()
-        println("sad")
     }
 }
