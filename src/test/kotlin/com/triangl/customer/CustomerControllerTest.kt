@@ -109,7 +109,6 @@ class CustomerControllerTest{
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.name", `is`(name)))
-                .andExpect(jsonPath("$.deleted", `is`(false)))
                 .andExpect(jsonPath("$.maps", `is`(listOf<Map>())))
     }
 
@@ -135,18 +134,18 @@ class CustomerControllerTest{
         val initialCustomer = Customer("Customer7")
         val newCustomer = Customer("Customer8")
         newCustomer.apply { id = initialCustomer.id
-            deleted = true }
+            name = "Updated" }
 
         given(customerService.updateCustomer(eq(initialCustomer.id!!), any<Customer>())).willReturn(newCustomer)
 
         /* When, Then */
         mockMvc.perform(patch("/customers/${initialCustomer.id}")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{ \"deleted\": true }"))
+                    .content("{ \"name\": \"Updated\" }"))
                 .andDo(print())
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.id", `is`(initialCustomer.id)))
-                .andExpect(jsonPath("$.deleted", `is`(newCustomer.deleted)))
+                .andExpect(jsonPath("$.name", `is`(newCustomer.name)))
     }
 
     @Test
