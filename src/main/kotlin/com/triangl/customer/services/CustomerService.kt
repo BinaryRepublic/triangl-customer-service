@@ -1,5 +1,7 @@
 package com.triangl.customer.services
 
+import com.triangl.customer.dto.PubSubAttributesDto
+import com.triangl.customer.dto.PubSubOperation
 import com.triangl.customer.entity.Customer
 import com.triangl.customer.webservices.datastore.DatastoreWs
 import com.triangl.customer.webservices.pubsub.PubSubWs
@@ -23,7 +25,12 @@ class CustomerService (
         datastoreWs.saveCustomer(customer)
 
         val dbCustomer = datastoreWs.findCustomerById(customer.id!!)!!
-        pubsubWs.sendCustomerToPubSub(dbCustomer)
+        pubsubWs.publish(
+            listOf(dbCustomer),
+            PubSubAttributesDto().apply {
+                operation = PubSubOperation.APPLY_CUSTOMER
+            }
+        )
 
         return dbCustomer
     }
@@ -43,7 +50,12 @@ class CustomerService (
         }
 
         val dbCustomer = datastoreWs.findCustomerById(customerId)!!
-        pubsubWs.sendCustomerToPubSub(dbCustomer)
+        pubsubWs.publish(
+            listOf(dbCustomer),
+            PubSubAttributesDto().apply {
+                operation = PubSubOperation.APPLY_CUSTOMER
+            }
+        )
 
         return dbCustomer
     }

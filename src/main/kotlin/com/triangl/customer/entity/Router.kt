@@ -23,11 +23,11 @@ class Router {
     constructor()
 
     constructor(x: Float, y: Float) {
-        this.id = UUID.randomUUID().toString()
         this.location = Coordinate(x,y)
     }
 
     init {
+        this.id = UUID.randomUUID().toString()
         this.createdAt = Instant.now().toString()
         this.lastUpdatedAt = Instant.now().toString()
     }

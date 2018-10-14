@@ -32,7 +32,6 @@ class Map {
     constructor()
 
     constructor(name: String, svgPath: String, size: Coordinate, routes: List<Router>) {
-        this.id = UUID.randomUUID().toString()
         this.name = name
         this.svgPath = svgPath
         this.size = size
@@ -40,6 +39,7 @@ class Map {
     }
 
     init {
+        this.id = UUID.randomUUID().toString()
         this.createdAt = Instant.now().toString()
         this.lastUpdatedAt = Instant.now().toString()
     }
