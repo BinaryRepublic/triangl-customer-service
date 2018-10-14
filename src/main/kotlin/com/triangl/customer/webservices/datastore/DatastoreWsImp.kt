@@ -13,7 +13,11 @@ class DatastoreWsImp: DatastoreWs {
 
     override fun findCustomerById(customerId: String): Customer? = ofy().load().type(Customer::class.java).id(customerId).now()
 
-    override fun saveCustomer(customer: Customer) { ofy().save().entity(customer).now() }
+    override fun saveCustomer(customer: Customer) {
+        ofy().save().entity(customer).now()
+    }
 
-    override fun deleteCustomerById(customerId: String) { ofy().delete().type(Customer::class.java).id(customerId).now() }
+    override fun deleteCustomerById(customerId: String) {
+        ofy().delete().type(Customer::class.java).id(customerId).now()
+    }
 }

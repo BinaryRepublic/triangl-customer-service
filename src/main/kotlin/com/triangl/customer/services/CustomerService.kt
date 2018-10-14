@@ -2,6 +2,7 @@ package com.triangl.customer.services
 
 import com.triangl.customer.entity.Customer
 import com.triangl.customer.webservices.datastore.DatastoreWs
+import com.triangl.customer.webservices.pubsub.PubSubWs
 import org.springframework.stereotype.Service
 import java.time.Instant
 import kotlin.reflect.KMutableProperty
@@ -9,7 +10,8 @@ import kotlin.reflect.full.declaredMemberProperties
 
 @Service("customerService")
 class CustomerService (
-    private val datastoreWs: DatastoreWs
+    private val datastoreWs: DatastoreWs,
+    private val pubsubWs: PubSubWs
 ) {
 
     fun findAllCustomers(): List<Customer> = datastoreWs.findAllCustomers()
@@ -20,7 +22,10 @@ class CustomerService (
         val customer = Customer(name)
         datastoreWs.saveCustomer(customer)
 
-        return datastoreWs.findCustomerById(customer.id!!)
+        val dbCustomer = datastoreWs.findCustomerById(customer.id!!)!!
+        pubsubWs.sendCustomerToPubSub(dbCustomer)
+
+        return dbCustomer
     }
 
     fun updateCustomer(customerId: String, valuesToUpdate: Customer): Customer {
@@ -37,7 +42,10 @@ class CustomerService (
             datastoreWs.saveCustomer(customer)
         }
 
-        return customer
+        val dbCustomer = datastoreWs.findCustomerById(customerId)!!
+        pubsubWs.sendCustomerToPubSub(dbCustomer)
+
+        return dbCustomer
     }
 
     fun deleteCustomer(customerId: String) {
