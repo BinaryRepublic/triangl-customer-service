@@ -1,6 +1,8 @@
 # Triangl-Customer-Service
 **Url**: https://api.triangl.io/customer-service/
 
+**Place in the Infrastructure**: https://github.com/codeuniversity/triangl-infrastructure
+
 ## Routes
 
 - Get all Customers with GET /customers/all
@@ -42,5 +44,3 @@ The following Environment variables are need for this service:
 - With Gradle
 
   ```GOOGLE_APPLICATION_CREDENTIALS=/path/to/google/key/file.json ./gradlew bootRun```
-
-![Infrastructure](./docs/six-sense-infrastructure.svg)
