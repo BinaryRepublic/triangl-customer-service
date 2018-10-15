@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/codeuniversity/triangl-customer-service.svg?style=svg)](https://circleci.com/gh/codeuniversity/triangl-customer-service)
+[![CircleCI](https://circleci.com/gh/codeuniversity/triangl-customer-service.svg?style=svg&circle-token=7e3c9e9205e987a3dd345610709e21f5d3614c32)](https://circleci.com/gh/codeuniversity/triangl-customer-service)
 
 # Triangl-Customer-Service
 **Url**: https://api.triangl.io/customer-service/
