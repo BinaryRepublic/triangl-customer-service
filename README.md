@@ -42,3 +42,5 @@ The following Environment variables are need for this service:
 - With Gradle
 
   ```GOOGLE_APPLICATION_CREDENTIALS=/path/to/google/key/file.json ./gradlew bootRun```
+
+![Infrastructure](./docs/six-sense-infrastructure.svg)
