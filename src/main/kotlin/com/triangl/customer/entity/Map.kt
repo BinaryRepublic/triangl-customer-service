@@ -3,44 +3,27 @@ package com.triangl.customer.entity
 import java.time.Instant
 import java.util.*
 import javax.persistence.Entity
-import javax.validation.constraints.NotNull
 
 @Entity
-class Map {
-    @NotNull
-    var id: String? = null
+class Map (
+    var id: String? = null,
 
-    @NotNull
-    var name: String? = null
+    var name: String? = null,
 
-    @NotNull
-    var svgPath: String? = null
+    var svgPath: String? = null,
 
-    @NotNull
-    var size: Coordinate? = null
+    var size: Coordinate? = null,
 
-    @NotNull
-    var router: List<Router>? = null
+    var router: List<Router>? = null,
 
-    @NotNull
-    var lastUpdatedAt: String? = null
+    var lastUpdatedAt: String? = null,
 
-    @NotNull
     var createdAt: String? = null
 
-    @Suppress("unused")
-    constructor()
-
-    constructor(name: String, svgPath: String, size: Coordinate, routes: List<Router>) {
-        this.name = name
-        this.svgPath = svgPath
-        this.size = size
-        this.router = routes
-    }
-
+) {
     init {
-        this.id = UUID.randomUUID().toString()
-        this.createdAt = Instant.now().toString()
-        this.lastUpdatedAt = Instant.now().toString()
+        id = id ?: UUID.randomUUID().toString()
+        createdAt = createdAt ?: Instant.now().toString()
+        lastUpdatedAt = lastUpdatedAt ?: Instant.now().toString()
     }
 }
