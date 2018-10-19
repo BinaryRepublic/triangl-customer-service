@@ -29,48 +29,52 @@ class CustomerIntegrationTest {
 
     @Test
     fun `should return a list of customers`() {
-        RestAssured.given()
-                .get("/customers/all")
-                .then()
-                .log().ifValidationFails()
-                .statusCode(HttpStatus.OK.value())
-                .body("customers", hasSize<Customer>(1))
+        RestAssured
+            .given()
+            .get("/customers/all")
+            .then()
+            .log().ifValidationFails()
+            .statusCode(HttpStatus.OK.value())
+            .body("customers", hasSize<Customer>(1))
     }
 
     @Test
     fun `should return a customer by id`() {
         val customerId = "SomeRandomId"
 
-        RestAssured.given()
-                .get("/customers/$customerId")
-                .then()
-                .log().ifValidationFails()
-                .statusCode(HttpStatus.OK.value())
-                .body("id", `is`(customerId))
-                .body("name", `is`("name_$customerId"))
-                .body("maps", `is`(arrayListOf<Map>()))
+        RestAssured
+            .given()
+            .get("/customers/$customerId")
+            .then()
+            .log().ifValidationFails()
+            .statusCode(HttpStatus.OK.value())
+            .body("id", `is`(customerId))
+            .body("name", `is`("name_$customerId"))
+            .body("maps", `is`(arrayListOf<Map>()))
     }
 
     @Test
     fun `should return the created customer`() {
-        RestAssured.given()
-                .contentType(ContentType.JSON)
-                .body("{ \"name\": \"TestUser\" }")
-                .post("/customers")
-                .then()
-                .log().ifValidationFails()
-                .statusCode(HttpStatus.OK.value())
-                .body("id", isA(String::class.java))
-                .body("maps", `is`(arrayListOf<Map>()))
+        RestAssured
+            .given()
+            .contentType(ContentType.JSON)
+            .body("{ \"name\": \"TestUser\" }")
+            .post("/customers")
+            .then()
+            .log().ifValidationFails()
+            .statusCode(HttpStatus.OK.value())
+            .body("id", isA(String::class.java))
+            .body("maps", `is`(arrayListOf<Map>()))
     }
 
 
     @Test
     fun `should return a boolean if the customer is deleted or not`() {
-        RestAssured.given()
-                .delete("/customers/SomeID")
-                .then()
-                .log().ifValidationFails()
-                .statusCode(HttpStatus.NO_CONTENT.value())
+        RestAssured
+            .given()
+            .delete("/customers/SomeID")
+            .then()
+            .log().ifValidationFails()
+            .statusCode(HttpStatus.NO_CONTENT.value())
     }
 }

@@ -52,9 +52,11 @@ class CustomerServiceTest{
         /* Given */
         val initialCustomer = Customer("TestName")
         val newCustomer = Customer("TestName")
-        newCustomer.apply { id = initialCustomer.id
-                            createdAt = initialCustomer.createdAt
-                            lastUpdatedAt = initialCustomer.lastUpdatedAt }
+        newCustomer.apply {
+            id = initialCustomer.id
+            createdAt = initialCustomer.createdAt
+            lastUpdatedAt = initialCustomer.lastUpdatedAt
+        }
 
         given(datastoreWs.findCustomerById(initialCustomer.id!!)).willReturn(initialCustomer)
 
@@ -70,9 +72,18 @@ class CustomerServiceTest{
         /* Given */
         val initialCustomer = Customer("TestName")
         val newCustomer = Customer("TestName")
-        newCustomer.apply { createdAt = initialCustomer.createdAt
-                            name = "Updated"
-                            maps = listOf(Map("TestMap","TestPath", Coordinate(1F,1F), listOf(Router(2F,2F))))}
+        newCustomer.apply {
+            createdAt = initialCustomer.createdAt
+            name = "Updated"
+            maps = listOf(
+                Map(
+                    name = "TestMap",
+                    svgPath = "TestPath",
+                    size = Coordinate(x = 1F, y = 1F),
+                    router = listOf(Router(location = Coordinate(x = 2F, y = 2F)))
+                )
+            )
+        }
 
         given(datastoreWs.findCustomerById(initialCustomer.id!!)).willReturn(initialCustomer)
 

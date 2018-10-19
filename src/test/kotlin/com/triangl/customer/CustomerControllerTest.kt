@@ -42,8 +42,8 @@ class CustomerControllerTest{
     @Before
     fun init() {
         mockMvc = MockMvcBuilders
-                .standaloneSetup(customerController)
-                .build()
+            .standaloneSetup(customerController)
+            .build()
     }
 
     @Test
@@ -56,14 +56,15 @@ class CustomerControllerTest{
         given(customerService.findAllCustomers()).willReturn(customerList)
 
         /* When, Then */
-        mockMvc.perform(get("/customers/all"))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.customers", hasSize<Customer>(2)))
-                .andExpect(jsonPath("$.customers[0].id", `is`(customer1.id)))
-                .andExpect(jsonPath("$.customers[0].name", `is`(customer1.name)))
-                .andExpect(jsonPath("$.customers[1].id", `is`(customer2.id)))
-                .andExpect(jsonPath("$.customers[1].name", `is`(customer2.name)))
+        mockMvc
+            .perform(get("/customers/all"))
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.customers", hasSize<Customer>(2)))
+            .andExpect(jsonPath("$.customers[0].id", `is`(customer1.id)))
+            .andExpect(jsonPath("$.customers[0].name", `is`(customer1.name)))
+            .andExpect(jsonPath("$.customers[1].id", `is`(customer2.id)))
+            .andExpect(jsonPath("$.customers[1].name", `is`(customer2.name)))
     }
 
     @Test
@@ -74,11 +75,12 @@ class CustomerControllerTest{
         given(customerService.findCustomerById(customer3.id!!)).willReturn(customer3)
 
         /* When, Then */
-        mockMvc.perform(get("/customers/${customer3.id}"))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.id", `is`(customer3.id)))
-                .andExpect(jsonPath("$.name", `is`(customer3.name)))
+        mockMvc
+            .perform(get("/customers/${customer3.id}"))
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id", `is`(customer3.id)))
+            .andExpect(jsonPath("$.name", `is`(customer3.name)))
     }
 
     @Test
@@ -89,10 +91,11 @@ class CustomerControllerTest{
         given(customerService.findCustomerById(customer4.id!!)).willReturn(null)
 
         /* When, Then */
-        mockMvc.perform(get("/customers/${customer4.id}"))
-                .andDo(print())
-                .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.error", `is`("Customer ID not found")))
+        mockMvc
+            .perform(get("/customers/${customer4.id}"))
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.error", `is`("Customer ID not found")))
     }
 
     @Test
@@ -103,13 +106,15 @@ class CustomerControllerTest{
         given(customerService.createCustomer(name)).willReturn(Customer(name))
 
         /* When, Then */
-        mockMvc.perform(post("/customers")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(name))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.name", `is`(name)))
-                .andExpect(jsonPath("$.maps", `is`(listOf<Map>())))
+        mockMvc
+            .perform(
+                post("/customers")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(name))
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.name", `is`(name)))
+            .andExpect(jsonPath("$.maps", `is`(listOf<Map>())))
     }
 
     @Test
@@ -120,12 +125,14 @@ class CustomerControllerTest{
         given(customerService.createCustomer(name)).willReturn(null)
 
         /* When, Then */
-        mockMvc.perform(post("/customers")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(name))
-                .andDo(print())
-                .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.error", `is`("Customer ID not found")))
+        mockMvc
+            .perform(
+                post("/customers")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(name))
+            .andDo(print())
+            .andExpect(status().isBadRequest)
+            .andExpect(jsonPath("$.error", `is`("Customer ID not found")))
     }
 
     @Test
@@ -139,20 +146,24 @@ class CustomerControllerTest{
         given(customerService.updateCustomer(eq(initialCustomer.id!!), any<Customer>())).willReturn(newCustomer)
 
         /* When, Then */
-        mockMvc.perform(patch("/customers/${initialCustomer.id}")
+        mockMvc
+            .perform(
+                patch("/customers/${initialCustomer.id}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content("{ \"name\": \"Updated\" }"))
-                .andDo(print())
-                .andExpect(status().isOk)
-                .andExpect(jsonPath("$.id", `is`(initialCustomer.id)))
-                .andExpect(jsonPath("$.name", `is`(newCustomer.name)))
+            .andDo(print())
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.id", `is`(initialCustomer.id)))
+            .andExpect(jsonPath("$.name", `is`(newCustomer.name)))
     }
 
     @Test
     fun `should return 204 no content`() {
         /* When, Then */
-        mockMvc.perform(delete("/customers/SomeRandomIp"))
-                .andDo(print())
-                .andExpect(status().isNoContent)
+        mockMvc
+            .perform(
+                    delete("/customers/SomeRandomIp"))
+            .andDo(print())
+            .andExpect(status().isNoContent)
     }
 }
