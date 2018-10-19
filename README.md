@@ -3,6 +3,8 @@
 # Triangl-Customer-Service
 **Url**: https://api.triangl.io/customer-service/
 
+**Full API Documentation**: https://api.triangl.io/customer-service/swagger-ui.html
+
 **Place in the Infrastructure**: https://github.com/codeuniversity/triangl-infrastructure
 
 ## Routes
