@@ -16,6 +16,7 @@ class Customer (
 
     var name: String? = null,
 
+    @Index
     var maps: List<Map>? = null,
 
     var lastUpdatedAt: String? = null,
