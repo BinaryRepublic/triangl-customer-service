@@ -125,7 +125,7 @@ class CustomerControllerTest{
                             .content(name))
                 .andDo(print())
                 .andExpect(status().isBadRequest)
-                .andExpect(jsonPath("$.error", `is`("Customer ID not found")))
+                .andExpect(jsonPath("$.error", `is`("Couldn't create customer")))
     }
 
     @Test

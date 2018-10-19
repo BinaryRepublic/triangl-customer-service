@@ -38,7 +38,7 @@ class CustomerController (
     }
 
     @ApiOperation(value = "Create a Customer with the given name", response = Customer::class)
-    @ApiResponses(value = [ApiResponse(code = 400, message = "Customer ID not found")])
+    @ApiResponses(value = [ApiResponse(code = 400, message = "Couldn't create customer")])
     @PostMapping
     fun createWithName(@RequestBody name: String): ResponseEntity<*> {
         val customer = customerService.createCustomer(name)
