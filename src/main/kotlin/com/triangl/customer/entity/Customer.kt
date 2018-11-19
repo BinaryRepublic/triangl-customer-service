@@ -5,7 +5,6 @@ import com.googlecode.objectify.annotation.Index
 import java.time.Instant
 import java.util.*
 import javax.persistence.Entity
-import javax.validation.constraints.NotNull
 import kotlin.collections.ArrayList
 
 @Entity

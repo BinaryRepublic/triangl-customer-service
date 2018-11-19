@@ -3,7 +3,6 @@ package com.triangl.customer.entity
 import java.time.Instant
 import java.util.*
 import javax.persistence.Entity
-import javax.validation.constraints.NotNull
 
 @Entity
 class Router (
