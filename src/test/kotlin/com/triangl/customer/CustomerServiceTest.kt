@@ -18,7 +18,6 @@ import org.mockito.Mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.TestPropertySource
 
 @RunWith(MockitoJUnitRunner::class)
 @SpringBootTest
