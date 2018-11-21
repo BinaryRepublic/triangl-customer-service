@@ -2,9 +2,7 @@ package com.triangl.customer.entity
 
 import java.time.Instant
 import java.util.*
-import javax.persistence.Entity
 
-@Entity
 class Router (
     var id: String? = null,
 
