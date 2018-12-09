@@ -2,6 +2,7 @@ package com.triangl.customer.config
 
 import com.auth0.spring.security.api.JwtWebSecurityConfigurer
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -41,6 +42,7 @@ class OAuthConfig : WebSecurityConfigurerAdapter() {
             .forRS256(apiAudience, issuer)
             .configure(http)
             .authorizeRequests()
+            .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
             .antMatchers(HttpMethod.GET, "/**").hasAuthority("read:customer")
             .antMatchers(HttpMethod.POST, "/**").hasAuthority("write:customer")
             .antMatchers(HttpMethod.PATCH, "/**").hasAuthority("write:customer")
